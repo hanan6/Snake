@@ -20,6 +20,8 @@ public class SocketClient {
 	static private Socket s;
 	PrintWriter out = null;
     BufferedReader in = null;
+    
+    boolean etatConnexion;
 	
 	public SocketClient(){
 		
@@ -41,11 +43,35 @@ public class SocketClient {
 					s.getInputStream())
 				);
 		      
-			out.println("mess"); 
-		    System.out.println("etat de connexion (message du serveur)>: " + in.readLine());
-		      
-		    out.close();
-		    in.close();
+			
+			etatConnexion=true;
+			
+			out.println("");
+			System.out.println("etat de connexion (message du serveur)>: " + in.readLine());
+			
+			while(etatConnexion){
+				
+		
+				
+				Scanner sc = new Scanner(System.in);
+				System.out.println("Mon message:");
+				String str = sc.nextLine();
+				out.println(str);
+				
+				if(in.readLine().equals("close")){
+					System.out.println("Deconnection...");
+					etatConnexion=false;
+					
+					out.close();
+					in.close();
+					
+					System.out.println("Deconnecté!!");
+				}
+				
+				
+		   
+			}
+			
 			
 			
 		} catch (UnknownHostException e) {

@@ -11,6 +11,7 @@ import model.Player;
  * @attribute joueur: ensemble des joueurs connectée à la Partie
  * @attribute montres: ensemble de Monstre
  * @attribute miam: ensemble de Miam
+ * @attribute server: 
  * 
  * @author etudiant
  *
@@ -20,6 +21,9 @@ public class MoteurJeu {
 	ArrayList<Miams> miams;
 	ArrayList<Monstre> montres;
 	ArrayList<Player> players;
+	
+	MultiThreadSocketServer server;
+	SocketClient sock_client;
 	
 	public MoteurJeu(){
 		
@@ -50,6 +54,10 @@ public class MoteurJeu {
 	public void setPlayers(ArrayList<Player> players) {
 		this.players = players;
 	}
+	
+	/*  Essai de connexion d'un client*/
+	
+	
 	
 
 }

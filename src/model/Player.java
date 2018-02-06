@@ -27,7 +27,7 @@ public class Player {
 
 
 	
-	/*  getters and Setters*/
+	/* --------------------------- getters and Setters---------------*/
 	
 	public SocketClient getSocket() {
 		return socket;
@@ -77,6 +77,38 @@ public class Player {
 	public void setNiveau(int niveau) {
 		this.niveau = niveau;
 	}
+	
+	
+	/* --------------------------- -------------------------*/
+	
+	
+	/**
+	 *  Gestion de la connexion entre Client et server 
+	 *  @param serverAdress: adresse du serveur
+	 *  @param port: port de communication avec le serveur
+	 *  */
+	
+	public void demandeConnexion(String serverAdress,int port){
+		
+		 socket= new SocketClient();
+		 socket.connexion(serverAdress, port);
+		
+		
+	}
+	
+	 public static void main(String args[]){
+		 
+		 
+		 /*
+		  *  Instanciation d'un personne/joueur et demande de connexion  sur le serveur
+		  */
+		 Player p1= new Player();
+		 p1.demandeConnexion("localhost",36000);
+		
+	 }
+	
+	
+	
 	
 	
 
