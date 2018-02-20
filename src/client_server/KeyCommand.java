@@ -37,24 +37,24 @@ public class KeyCommand implements KeyListener {
 		   if (e.getKeyCode()==KeyEvent.VK_UP){
 			  
 			  p.getPos().setPosY(p.getPos().getPosY()+1);
-			  p.getSocket().envoyereMessage(p.getPos());
+			  p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
 		   }
 		   
 		   if (e.getKeyCode()==KeyEvent.VK_DOWN){
 				  
 				  p.getPos().setPosY(p.getPos().getPosY()-1);
-				  p.getSocket().envoyereMessage(p.getPos());
+				  p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
 			   }
 		   
 		   if (e.getKeyCode()==KeyEvent.VK_LEFT){
 				  
 				  p.getPos().setPosX(p.getPos().getPosX()-1);
-				  p.getSocket().envoyereMessage(p.getPos());
+				  p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
 			   }
 		   if (e.getKeyCode()==KeyEvent.VK_RIGHT){
 				  
 				  p.getPos().setPosX(p.getPos().getPosX()+1);
-				  p.getSocket().envoyereMessage(p.getPos());
+				  p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
 			   }
 
    }

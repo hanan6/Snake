@@ -2,6 +2,7 @@ package vue;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -50,13 +51,21 @@ public class FenetrePricipale extends JFrame {
         // Action a la fermeture (croix)
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
         this.setVisible(true);
+        
+        
     }
+    
+    public void paint(Graphics g) {
+        g.fillRect(0,0,200,20);
+      
+      }
      
     public static void main(String[] args) {
         // construit une fenêtre de type TestKeyListener et l'affiche
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 JFrame frame = new FenetrePricipale();
+                frame.getContentPane().add(new MainClass());
                 frame.setVisible(true);
             }
         });

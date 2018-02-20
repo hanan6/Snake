@@ -30,25 +30,22 @@ public class ClientDialogThread extends Thread {
     public void run() {
     	PositionJoueur pos;
       try {
-       /* out = new PrintWriter(socket.getOutputStream(), true);
+        out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(
               socket.getInputStream())
             );   
            
-            String line;
+           String line;
             while (true) {
               line = in.readLine();
-                //System.out.println("received> "+line);
-            //  System.out.println(nbre_msg+">"+line);
-                
                 
                 out.println("Client connecté");
                 if (line.equals("bye")) {
                 	out.println("close");
                 	in.close();
                     out.close();
-                     socket.close();
-                     break;
+                    socket.close();
+                    break;
                 }
                 
                 System.out.println("received> "+line);
@@ -57,23 +54,13 @@ public class ClientDialogThread extends Thread {
            // in.close();
             //out.close();
             //socket.close();*/
-    	  
-    	  
-    	  oos = new ObjectOutputStream(socket.getOutputStream());
-    	  ois = new ObjectInputStream(socket.getInputStream());
-    	  
-    	  while ((pos = (PositionJoueur) ois.readObject()) != null) {
-    	     // comp.printCompanyObject();
-    		  
-    		  Object obj = ois.readObject();
-              pos = (PositionJoueur) obj;
-    		  
-    		  pos.affichagePosition();
-
-    	      //oos.writeObject("bye bye");
-    	     // break;
-    	    }
+            
            
+    	  
+    	  
+    	//  oos = new ObjectOutputStream(socket.getOutputStream());
+    	//  ois = new ObjectInputStream(socket.getInputStream());
+
       } catch(Exception e) {
         System.err.println(e);
       }

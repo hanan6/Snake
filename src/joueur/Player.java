@@ -33,7 +33,7 @@ public class Player {
 
 	public Player(){
 		pos= new PositionJoueur(); // Initilisation de la position du joeur
-		
+		id="12";
 	}
 
 
@@ -107,7 +107,7 @@ public class Player {
 		 
 		 
 		 socket.connexion(serverAdress, port);
-		 socket.envoyereMessage(pos);
+		 socket.envoyereMessage("Pos:X="+pos.getPosX()+"Y="+pos.getPosY());
 		
 		
 	}
@@ -120,14 +120,6 @@ public class Player {
 		  */
 		 Player p1= new Player();
 		 p1.demandeConnexion("localhost",36000);
-		 
-		 p1.getSocket().envoyereMessage(p1.getPos());
-		 
-		 
-		 
-		 
-		 // Test saisie touche au clavier
-		 
 		 
 		 
 	 }
