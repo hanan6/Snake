@@ -1,6 +1,8 @@
 package client_server;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import joueur.Miams;
 import joueur.Monstre;
@@ -22,7 +24,8 @@ public class MoteurJeu {
 	 
 	ArrayList<Miams> miams;
 	ArrayList<Monstre> montres;
-	ArrayList<Player> players;
+	//ArrayList<Player> players;
+	Map<Integer,Integer> players;
 	
 	MultiThreadSocketServer server;
 	SocketClient sock_client;
@@ -31,6 +34,7 @@ public class MoteurJeu {
 	
 	
 	public MoteurJeu(){
+		players= new HashMap<Integer,Integer>();
 		
 	}
 	
@@ -78,16 +82,15 @@ public class MoteurJeu {
 		this.montres = montres;
 	}
 
-	public ArrayList<Player> getPlayers() {
+	public Map<Integer, Integer> getPlayers() {
 		return players;
 	}
 
-	public void setPlayers(ArrayList<Player> players) {
+	public void setPlayers(Map<Integer, Integer> players) {
 		this.players = players;
 	}
 	
 	/*  Essai de connexion d'un client*/
-	
 	
 	
 

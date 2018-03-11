@@ -1,5 +1,7 @@
 package joueur;
 
+import java.util.ArrayList;
+
 /**
  * Classe representant le Snake ayant pour proprieté
  * posX: sa position en X
@@ -15,12 +17,15 @@ public class Snake {
 	private int nb_miam;
 	private String direction; //( A revoir )
 	
+	ArrayList<SnakePart> setPart= new ArrayList<SnakePart>();
+	
+
 	/**
 	 * Creation
 	 */
-	public Snake(){
+	public Snake( SnakePart head){
 		/* Initialisation à definir */
-		
+		setPart.add(head); // ajout de la tete du serpent
 		
 	}
 
@@ -54,6 +59,120 @@ public class Snake {
 
 	public void setDirection(String direction) {
 		this.direction = direction;
+	}
+
+	
+	/**
+	 * ajout de partie du Snake ( agrandissment de la taille)
+	 */
+	
+	public void addPart(SnakePart p){
+		int n=setPart.size();
+		p.setPosX(setPart.get(n-1).getPosX()-40);
+		p.setPosY(setPart.get(n-1).getPosY());
+		setPart.add(p);	
+	}
+	
+	
+	/**
+	 * Mise à jour des position (moouvement vers le bas)
+	 */
+	public void moveDown(){
+		// modification de la position de la tete
+		int pos_y;
+		pos_y=setPart.get(0).getPosY();
+		int dim=setPart.get(0).getDimX();
+		setPart.get(0).setPosY(pos_y+dim);
+		if (setPart.size()>1){
+			for(int i=1;i<setPart.size();i++){
+				setPart.get(i).setPosY(pos_y);
+				pos_y=setPart.get(i).getPosY();
+			}
+		}
+	}
+	
+	/**
+	 * Mise à jour des position (moouvement vers le haut)
+	 */
+	public void moveTop(){
+		// modification de la position de la tete
+		int pos_y;
+		pos_y=setPart.get(0).getPosY();
+		int dim=setPart.get(0).getDimX();
+		setPart.get(0).setPosY(pos_y-dim);
+		if (setPart.size()>1){
+			for(int i=1;i<setPart.size();i++){
+				setPart.get(i).setPosY(pos_y);
+				pos_y=setPart.get(i).getPosY();
+			}
+		}
+	}
+	
+	/**
+	 * Mise à jour des position (moouvement vers la gauche)
+	 */
+	public void moveLelft(){
+		// modification de la position de la tete
+		int pos_x;
+		pos_x=setPart.get(0).getPosX();
+		int dim=setPart.get(0).getDimX();
+		setPart.get(0).setPosX(pos_x-dim);
+		if (setPart.size()>1){
+			for(int i=1;i<setPart.size();i++){
+				setPart.get(i).setPosX(pos_x);
+				pos_x=setPart.get(i).getPosX();
+			}
+		}
+	}
+	
+	/**
+	 * Mise à jour des position (moouvement vers la la droute)
+	 */
+	public void moveLeft(){
+		// modification de la position de la tete
+		int pos_x;
+		pos_x=setPart.get(0).getPosX();
+		int dim=setPart.get(0).getDimX();
+		setPart.get(0).setPosX(pos_x+dim);
+		if (setPart.size()>1){
+			for(int i=1;i<setPart.size();i++){
+				setPart.get(i).setPosX(pos_x);
+				pos_x=setPart.get(i).getPosX();
+			}
+		}
+	}
+	
+	/**
+	 * Mise à jour de position des differentes parties
+	 */
+	public void moving(){
+		//System.out.println("--------------");
+		int pos_x, pos_y, pos_x1, pos_y1;
+		pos_x=setPart.get(0).getPosX();
+		//System.out.print("posX0= "+pos_x+" " );
+		pos_y=setPart.get(0).getPosY();
+		//System.out.println("posY0= "+pos_y );
+		if (setPart.size()>1){
+			for(int i=1;i<setPart.size();i++){
+				//System.out.print("posX0= "+pos_x+" " );
+				//System.out.println("posY0= "+pos_y );
+				pos_x1=setPart.get(i).getPosX();
+				pos_y1=setPart.get(i).getPosY();
+				setPart.get(i).setPosY(pos_y);
+				setPart.get(i).setPosX(pos_x);
+				pos_x=pos_x1;// System.out.print("posX= "+pos_x+" " );
+				pos_y=pos_y1; //System.out.println("posY= "+pos_y );
+			}
+		}
+		//System.out.println("--------------");
+	}
+
+	public ArrayList<SnakePart> getSetPart() {
+		return setPart;
+	}
+
+	public void setSetPart(ArrayList<SnakePart> setPart) {
+		this.setPart = setPart;
 	}
 
 

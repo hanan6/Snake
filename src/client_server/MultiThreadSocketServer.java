@@ -17,6 +17,8 @@ class MultiThreadSocketServer {
 	private static int num_mess=0;
 	private static  ArrayList<Socket> ensembleclient= new ArrayList<Socket>() ;
 	
+	static ConnectedPlayers players= new ConnectedPlayers();
+	
   public static void main(String args[]) {
          
     try {
@@ -25,7 +27,7 @@ class MultiThreadSocketServer {
       while (true) {
         Socket client = server.accept();
         num_mess++;    
-        ClientDialogThread t = new ClientDialogThread(client,num_mess);
+        ClientDialogThread t = new ClientDialogThread(client,num_mess,players);
         t.start();
         
       }

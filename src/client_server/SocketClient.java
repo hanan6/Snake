@@ -37,6 +37,8 @@ public class SocketClient  {
     
     ObjectInputStream ois;
     ObjectOutputStream oos;
+    
+    String server_response="";
    
 	public SocketClient(){
 		
@@ -48,7 +50,7 @@ public class SocketClient  {
 	 * @param serverAdress: Identite de la machaine (de type InetAdress ou String)
 	 * @param port: numéro de port sur lequel on souhaite se connecter sur le serveur
 	 */
-	public void connexion(String serverAdress, int port){
+	public void connexion(String serverAdress, int port, String message){
 
 		System.out.println("Demande de connexion");	
 		try {
@@ -63,17 +65,19 @@ public class SocketClient  {
 			//oos = new ObjectOutputStream(s.getOutputStream());
 		     
 			etatConnexion=true;
-			//out.println("");
+			out.println(message);
 			
-
+			server_response = in.readLine();
+			
+			System.out.println("message du serveur>"+server_response);
 			
 			//System.out.println("etat de connexion (message du serveur)>: " + in.readLine());
 			
 			/*while(etatConnexion){
 				
-			//	Scanner sc = new Scanner(System.in);
-			//	System.out.println("Mon message:");
-				//String str = sc.nextLine();
+				Scanner sc = new Scanner(System.in);
+				System.out.println("Mon message:");
+				String str = sc.nextLine();
 				//out.println(str);
 				//envoyereMessage(str);
 				
@@ -90,6 +94,10 @@ public class SocketClient  {
 				}
 				
 			} */
+			
+		//	out.close();
+		//	in.close();
+		//	s.close();
 						
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -108,16 +116,9 @@ public class SocketClient  {
 	 */
 	public void  envoyereMessage(String mes){
 		
-		
-		System.out.println("Essaie d'nevoie");
 		if(etatConnexion==true){
 			out.println(mes);
-			/* try {
-				oos.writeObject(pos);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
+
 		}
 		
 	}
@@ -129,6 +130,10 @@ public class SocketClient  {
 		in.close();
 		System.out.println("Deconnecté!!");
 		
+	}
+	
+	public String getServerResponse(){
+		return server_response;
 	}
 	
 	

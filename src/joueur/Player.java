@@ -28,12 +28,21 @@ public class Player {
 	int[][] matrice_jeu= new int[10][5];
 	
 	private  PositionJoueur pos;
+    EtatConnexion etatconnected; // etat de la connexion du joeur;
+    EtatConnexion etatdisconnected;
+    EtatConnexion etatconnexion;
+	
+
 	
 	
 
 	public Player(){
 		pos= new PositionJoueur(); // Initilisation de la position du joeur
 		id="12";
+		
+		etatconnected= new EtatConnected(this);
+		etatdisconnected= new EtatDisconnected(this);
+		etatconnexion= etatdisconnected;
 	}
 
 
@@ -99,15 +108,15 @@ public class Player {
 	 *  @param port: port de communication avec le serveur
 	 *  */
 	
-	public void demandeConnexion(String serverAdress,int port){
+	public void demandeConnexion(String serverAdress,int port,String message){
 		
 		 socket= new SocketClient();
 		 
 		
 		 
 		 
-		 socket.connexion(serverAdress, port);
-		 socket.envoyereMessage("Pos:X="+pos.getPosX()+"Y="+pos.getPosY());
+		 socket.connexion(serverAdress, port,message);
+		 //socket.envoyereMessage("Pos:X="+pos.getPosX()+"Y="+pos.getPosY());
 		
 		
 	}
@@ -119,7 +128,7 @@ public class Player {
 		  *  Instanciation d'un personne/joueur et demande de connexion  sur le serveur
 		  */
 		 Player p1= new Player();
-		 p1.demandeConnexion("localhost",36000);
+		 p1.demandeConnexion("localhost",36000,"Pos:X="+p1.getPos().getPosX()+"Y="+p1.getPos().getPosY());
 		 
 		 
 	 }
@@ -146,6 +155,27 @@ public class Player {
 
 	public void setPos(PositionJoueur pos) {
 		this.pos = pos;
+	}
+
+
+
+	public EtatConnexion getEtatconnected() {
+		return etatconnected;
+	}
+
+
+	public EtatConnexion getEtatdisconnected() {
+		return etatdisconnected;
+	}
+
+
+	public EtatConnexion getEtatconnexion() {
+		return etatconnexion;
+	}
+
+
+	public void setEtatconnexion(EtatConnexion etatconnexion) {
+		this.etatconnexion = etatconnexion;
 	}
 
 

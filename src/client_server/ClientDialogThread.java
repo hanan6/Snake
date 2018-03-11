@@ -21,10 +21,15 @@ public class ClientDialogThread extends Thread {
     ObjectInputStream ois;
       
      private  int nbre_msg;
+     
+     ConnectedPlayers players;
          
-    public ClientDialogThread(Socket s, int nb_message) {
+    public ClientDialogThread(Socket s, int nb_message, ConnectedPlayers players) {
       socket = s;
       this.nbre_msg=nb_message;
+      
+      this.players=players;
+      
     }
    
     public void run() {
@@ -38,8 +43,8 @@ public class ClientDialogThread extends Thread {
            String line;
             while (true) {
               line = in.readLine();
+              System.out.println("recu ="+line);
                 
-                out.println("Client connecté");
                 if (line.equals("bye")) {
                 	out.println("close");
                 	in.close();
@@ -47,24 +52,61 @@ public class ClientDialogThread extends Thread {
                     socket.close();
                     break;
                 }
+                else{
                 
-                System.out.println("received> "+line);
+	                if (line.startsWith("demandeconnexion")) {
+	                	String msg[]= line.split(":");
+	                	if(players.getPlayers().containsKey(msg[1])){
+	                		
+	                		System.out.print("connexion reussi");
+	                		this.sendMessage("ok");}
+	                }
+	                else{
+	                	
+	                	this.sendMessage("");
+	                	
+	                }
+                
+                }
+                          
+
             }
            
-           // in.close();
-            //out.close();
-            //socket.close();*/
-            
-           
-    	  
-    	  
-    	//  oos = new ObjectOutputStream(socket.getOutputStream());
-    	//  ois = new ObjectInputStream(socket.getInputStream());
 
       } catch(Exception e) {
         System.err.println(e);
       }
     }
+    
+    
+
+    
+    
+   /**
+    *  Interpretation des information recues par le serveur
+    */
+    
+    public void interpretationMessages(String received){
+    	
+    		System.out.println(received); /*( Affiche les informations recues), A modifier/completer */
+    	
+    	}
+    
+    /**
+     * Envoie message au client
+     * @return
+     */
+    
+    public void sendMessage(String msg){
+    	
+    	 out.println(msg);
+    	 
+    }
+
+	
+    
+    
+    
   }
    
 
