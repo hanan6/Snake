@@ -13,6 +13,11 @@ import javax.swing.Timer;
 
 import vue.DrawPanel;
 
+import joueur.Deplacement;
+import joueur.DeplacementBas;
+import joueur.DeplacementDroite;
+import joueur.DeplacementGauche;
+import joueur.DeplacementHaut;
 import joueur.Player;
 
 
@@ -39,11 +44,28 @@ public class KeyCommand implements KeyListener {
   
    private Player p= new Player(); // ajout d'un joueur;
    
+   Deplacement deplacement; //= new DeplacementDroite(this);
+   
+   DeplacementBas depBas;
+   
+   DeplacementHaut depHaut;
+   
+   DeplacementDroite depDroit;
+   
+   DeplacementGauche depGauche;
+   
+   
    /* Ajout dun joueur et test de connexion */
    
     
    public KeyCommand( DrawPanel panel_) {
-       label = panel_;
+      label = panel_;
+      depBas= new  DeplacementBas(this );
+      depHaut= new  DeplacementHaut(this );
+      depDroit= new  DeplacementDroite(this );
+      depGauche= new DeplacementGauche(this);
+       
+      deplacement= depHaut;
        
        //p.demandeConnexion("localhost",36000,"Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()); // connecxion au serveur
        p.getEtatconnexion().updatePosition("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
@@ -51,7 +73,9 @@ public class KeyCommand implements KeyListener {
        ActionListener listener = new AbstractAction() {
            public void actionPerformed(ActionEvent e) {
 
-        	 deplacement();
+        	 //deplacement();
+        	   
+        	  deplacement.seDeplacer();
         	  
         	  
         	
@@ -70,6 +94,7 @@ public class KeyCommand implements KeyListener {
 		   System.out.println(e.getKeyCode()==KeyEvent.VK_UP);	 
 		   if (e.getKeyCode()==KeyEvent.VK_UP){
 			  
+			   deplacement=depHaut;
 			//  p.getPos().setPosY(p.getPos().getPosY()+1);
 			//  p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
 		   }
@@ -79,7 +104,8 @@ public class KeyCommand implements KeyListener {
 			//	  p.getPos().setPosY(p.getPos().getPosY()-1);
 			//	  p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
 				  
-				  ok=true;
+			   deplacement=depBas;
+				  //ok=true;
 				 // sens=1;
                   
 			   }
@@ -88,14 +114,16 @@ public class KeyCommand implements KeyListener {
 				  
 			//	  p.getPos().setPosX(p.getPos().getPosX()-1);
 			//	  p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
+			   deplacement= depGauche;
 			   }
 		   if (e.getKeyCode()==KeyEvent.VK_RIGHT){
 				  
 			//	  p.getPos().setPosX(p.getPos().getPosX()+1);
 			//	  p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
 				  
-				  ok=true;
-				  //sens=0;
+				//  ok=true;
+				  deplacement= depDroit;
+				 // sens=0;
 			   }
 		   
 		   if (e.getKeyCode()==KeyEvent.VK_A){
@@ -157,6 +185,7 @@ public class KeyCommand implements KeyListener {
       		  if (c >/*=*/ D_W) {
 	                   c = 0;
 	                   y=y+20;
+	                   label.getSnake().moving();
 	                   label.getSnake().getSetPart().get(0).setPosY(y);
 	                   label.getSnake().getSetPart().get(0).setPosX(c);
 	               
@@ -255,4 +284,40 @@ public class KeyCommand implements KeyListener {
      }
 	   
    }
+
+public int getY() {
+	return y;
+}
+
+public void setY(int y) {
+	this.y = y;
+}
+
+public int getC() {
+	return c;
+}
+
+public void setC(int c) {
+	this.c = c;
+}
+
+public Player getP() {
+	return p;
+}
+
+public void setP(Player p) {
+	this.p = p;
+}
+
+public static int getdW() {
+	return D_W;
+}
+
+public static int getdH() {
+	return D_H;
+}
+
+public DrawPanel getLabel() {
+	return label;
+}
 }

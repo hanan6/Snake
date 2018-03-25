@@ -70,6 +70,7 @@ public class FenetrePricipale extends JFrame {
     int y = 0;
     SnakePart sp=	new SnakePart(0,0,20,20);
     SnakePart sp2= new SnakePart(0,0,20,20);
+    SnakePart sp3= new SnakePart(0,0,20,20);
     Snake monsnake= new Snake( sp);
   
     
@@ -79,6 +80,7 @@ public class FenetrePricipale extends JFrame {
     
     public FenetrePricipale() {
     	 monsnake.addPart(sp2);
+    	 monsnake.addPart(sp3);
     	// ajout d'un seul composant dans cette fenêtre : un JLabel
         JLabel label = new JLabel("Pressez une touche...");
         add(label, BorderLayout.CENTER);
