@@ -13,6 +13,8 @@ public class ConnectedPlayers {
 	 players=new HashMap<String,Integer>();
 	 
 	 players.put("boka",1);
+
+	 players.put("yao",2);
 	 
  }
  
@@ -23,13 +25,13 @@ public class ConnectedPlayers {
 	 
  }
 
-public Map<String, Integer> getPlayers() {
-	return players;
-}
+	public Map<String, Integer> getPlayers() {
+		return players;
+	}
 
-public void setPlayers(Map<String, Integer> players) {
-	this.players = players;
-}
+	public void setPlayers(Map<String, Integer> players) {
+		this.players = players;
+	}
  
  
 

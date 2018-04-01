@@ -1,7 +1,9 @@
 package joueur;
 
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -22,7 +24,7 @@ public class Player {
 	String id;
 	int vie;
 	private int niveau;
-	// Snake  snakeJoueur;
+	Snake  snakeJoueur;
 	SocketClient socket;
 	
 	int[][] matrice_jeu= new int[10][5];
@@ -36,19 +38,35 @@ public class Player {
 	
 	
 
-	public Player(){
+	public Player(String id_joueur, Snake sk, String serverAdress, int port) throws UnknownHostException, IOException{
 		pos= new PositionJoueur(); // Initilisation de la position du joeur
 		id="12";
+		snakeJoueur=sk;
 		
 		etatconnected= new EtatConnected(this);
 		etatdisconnected= new EtatDisconnected(this);
 		etatconnexion= etatdisconnected;
+		
+		socket= new SocketClient(serverAdress,port,this);
+		id=id_joueur;
 	}
 
 
 	
 	/* --------------------------- getters and Setters---------------*/
 	
+	public Snake getSnakeJoueur() {
+		return snakeJoueur;
+	}
+
+
+
+	public void setSnakeJoueur(Snake snakeJoueur) {
+		this.snakeJoueur = snakeJoueur;
+	}
+
+
+
 	public SocketClient getSocket() {
 		return socket;
 	}
@@ -108,14 +126,14 @@ public class Player {
 	 *  @param port: port de communication avec le serveur
 	 *  */
 	
-	public void demandeConnexion(String serverAdress,int port,String message){
+	public void demandeConnexion(String message){
 		
-		 socket= new SocketClient();
+		// socket= new SocketClient();
 		 
 		
 		 
 		 
-		 socket.connexion(serverAdress, port,message);
+		 socket.connexion(message);
 		 //socket.envoyereMessage("Pos:X="+pos.getPosX()+"Y="+pos.getPosY());
 		
 		
@@ -127,8 +145,8 @@ public class Player {
 		 /*
 		  *  Instanciation d'un personne/joueur et demande de connexion  sur le serveur
 		  */
-		 Player p1= new Player();
-		 p1.demandeConnexion("localhost",36000,"Pos:X="+p1.getPos().getPosX()+"Y="+p1.getPos().getPosY());
+		// Player p1= new Player();
+		// p1.demandeConnexion("localhost",36000,"Pos:X="+p1.getPos().getPosX()+"Y="+p1.getPos().getPosY());
 		 
 		 
 	 }

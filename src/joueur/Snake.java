@@ -23,9 +23,9 @@ public class Snake {
 	/**
 	 * Creation
 	 */
-	public Snake( SnakePart head){
+	public Snake( ){
 		/* Initialisation à definir */
-		setPart.add(head); // ajout de la tete du serpent
+	//	setPart.add(head); // ajout de la tete du serpent
 		
 	}
 
@@ -68,8 +68,10 @@ public class Snake {
 	
 	public void addPart(SnakePart p){
 		int n=setPart.size();
-		p.setPosX(setPart.get(n-1).getPosX()-40);
-		p.setPosY(setPart.get(n-1).getPosY());
+		if(n>0){
+			p.setPosX(setPart.get(n-1).getPosX()-20);
+			p.setPosY(setPart.get(n-1).getPosY());
+		}
 		setPart.add(p);	
 	}
 	
@@ -175,5 +177,10 @@ public class Snake {
 		this.setPart = setPart;
 	}
 
+	
+	public void addPartFixed(SnakePart sp){
+		
+		setPart.add(sp);
+	}
 
 }

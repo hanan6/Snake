@@ -16,7 +16,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
+import joueur.Player;
 import joueur.PositionJoueur;
+import joueur.SnakePart;
 
 import vue.FenetrePricipale;
 
@@ -39,10 +41,12 @@ public class SocketClient  {
     ObjectOutputStream oos;
     
     String server_response="";
+    
+    Player p;
    
-	public SocketClient(){
-		
-			
+	public SocketClient(String serverAdress, int port,Player p) throws UnknownHostException, IOException{
+		s= new Socket(serverAdress, port);
+		this.p=p;
 	}
 	
 	/**
@@ -50,11 +54,10 @@ public class SocketClient  {
 	 * @param serverAdress: Identite de la machaine (de type InetAdress ou String)
 	 * @param port: numéro de port sur lequel on souhaite se connecter sur le serveur
 	 */
-	public void connexion(String serverAdress, int port, String message){
+	public void connexion(String message){
 
 		System.out.println("Demande de connexion");	
 		try {
-			s= new Socket(serverAdress, port);
 			
 			out = new PrintWriter(s.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(
@@ -68,6 +71,13 @@ public class SocketClient  {
 			out.println(message);
 			
 			server_response = in.readLine();
+			
+			 if (server_response.equals("allongement")){
+					
+					SnakePart sp= new SnakePart(0,0,20,20);
+					p.getSnakeJoueur().addPart(sp);
+										
+				}
 			
 			System.out.println("message du serveur>"+server_response);
 			

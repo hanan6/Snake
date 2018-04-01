@@ -4,9 +4,14 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
+import javax.swing.JEditorPane;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
+import joueur.Miams;
 import joueur.Snake;
 import joueur.SnakePart;
 
@@ -25,29 +30,80 @@ public class DrawPanel extends JPanel {
 	 
 	 private Snake snake;
 	 
-	 public DrawPanel(Snake s){
+	 private Miams food=null;
+	 
+	
 
-		 snake=s;
+
+	private ArrayList <Snake> snakes=new ArrayList<Snake>();
+	 String id_player;
+	 
+	 public DrawPanel(String id_player){
+		 this.id_player=id_player;
+		 
+		// JTextField zoneNom= new  JTextField("");
+		 
+		 
+		// this.add(zoneNom);
+
+		// snake=s;
+		 
 		 
 	 }
 
 
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    public String getId_player() {
+		return id_player;
+	}
+
+
+	public void setId_player(String id_player) {
+		this.id_player = id_player;
+	}
+
+
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
        // System.out.print("taille="+snake.getSetPart().size());
-        for (int i=0;i<snake.getSetPart().size();i++){
-        	SnakePart spi=snake.getSetPart().get(i);
-        	//System.out.println("pos X="+spi.getPosX());
-        	g.setColor(Color.BLUE);
-        	g.fillRect(spi.getPosX(), spi.getPosY(), spi.getDimX(), spi.getDimY());
-        	
-       }
+        
+	     for(int k=0;k<snakes.size();k++){
+	        	Snake sk_i=snakes.get(k);
+	        	
+		        for (int i=0;i<sk_i.getSetPart().size();i++){
+		        	SnakePart spi=sk_i.getSetPart().get(i);
+
+		        	g.setColor(Color.BLUE);
+		        	g.fillRect(spi.getPosX(), spi.getPosY(), spi.getDimX(), spi.getDimY());
+		        	
+		       }
+		        
+		        
+        }
+	     
+	    // dessin de la nourriture;
+	     
+	     if (food!=null){
+	    	 g.setColor(Color.RED);
+	         g.fillRect(food.getPosX(), food.getPosY(), 20, 20);
+	    	 
+	     }
+	     
     }
     
     
     
 
-    public int getX() {
+    public ArrayList<Snake> getSnakes() {
+		return snakes;
+	}
+
+
+	public void setSnakes(ArrayList<Snake> snakes) {
+		this.snakes = snakes;
+	}
+
+
+	public int getX() {
 		return x;
 	}
 
@@ -135,5 +191,19 @@ public class DrawPanel extends JPanel {
 
 	public void setSnake(Snake snake) {
 		this.snake = snake;
+	}
+	
+	 public Miams getFood() {
+			return food;
+	}
+
+
+	public void setFood(Miams food) {
+		this.food = food;
+	}
+	
+	public void deleteFood(){
+		
+		food=null;
 	}
 }

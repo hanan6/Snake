@@ -18,7 +18,7 @@ public class EtatDisconnected implements EtatConnexion {
 
 	public void playerConnection() {
 
-		player.demandeConnexion("localhost",36000, "demandeconnexion:boka");
+		player.demandeConnexion(/*"localhost",36000, */"demandeconnexion:"+player.getId());
 		if (player.getSocket().getServerResponse().equals("ok")){
 			player.setEtatconnexion(player.getEtatconnected());
 		}
@@ -31,7 +31,13 @@ public class EtatDisconnected implements EtatConnexion {
 	}
 
 	public void updatePosition(String texte) {
-
+	/*	Snake sk= player.getSnakeJoueur();
+		
+		for(int i=0; i<sk.getSetPart().size();i++){
+			SnakePart sk_i= player.getSnakeJoueur().getSetPart().get(i);
+			player.demandeConnexion("localhost",36000, "Pos:X="+sk_i.getPosX()+"Y="+sk_i.getPosY());
+			
+		}*/
 	}
 	
 	public void print() {

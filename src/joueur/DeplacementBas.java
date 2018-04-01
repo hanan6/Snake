@@ -1,5 +1,7 @@
 package joueur;
 
+import java.util.ArrayList;
+
 import client_server.KeyCommand;
 import vue.DrawPanel;
 
@@ -29,7 +31,7 @@ public class DeplacementBas implements Deplacement {
 			 command.setY(0);
 			 command.getLabel().getSnake().moving(); 	 //label.getSnake().moving();
 			 command.getLabel().getSnake().getSetPart().get(0).setPosY(command.getY()); //label.getSnake().getSetPart().get(0).setPosY(y);
-			 command.getLabel().repaint();
+			// command.getLabel().repaint();
              //label.repaint();
 			 
 			 command.getP().getPos().setPosY(0);
@@ -46,15 +48,61 @@ public class DeplacementBas implements Deplacement {
 
              command.getLabel().getSnake().moving(); 	//label.getSnake().moving();
              command.getLabel().getSnake().getSetPart().get(0).setPosY(command.getY());// label.getSnake().getSetPart().get(0).setPosY(y);         
-             command.getLabel().repaint(); //label.repaint();
+            // command.getLabel().repaint(); //label.repaint();
              
              
-             command.getP().getPos().setPosY( command.getP().getPos().getPosY()+1); // p.getPos().setPosY(p.getPos().getPosY()+1);
+          //   command.getP().getPos().setPosY( command.getP().getPos().getPosY()+1); // p.getPos().setPosY(p.getPos().getPosY()+1);
             // p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
              //p.demandeConnexion("localhost",36000,"Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
              command.getP().getEtatconnexion().updatePosition("Pos:X="+command.getP().getPos().getPosX()+"Y="+command.getP().getPos().getPosY());
 
          }
+		 
+		 if (command.getP().getSocket().getServerResponse().startsWith("E")){
+			 	
+			 	
+			 	String infoSnake=command.getP().getSocket().getServerResponse().split("Food")[0];
+			 	
+			 	DrawPanel d= command.getLabel();
+			 	String positions= infoSnake.split("E")[1];
+			 	String[] snaks=positions.split("Snake");
+			 	ArrayList<Snake> snakes= new ArrayList<Snake> ();
+			 	for (int k=1;k<snaks.length;k++){
+			 		
+			 		String[] s=snaks[k].split("P");
+			 		
+				 	Snake sk= new Snake();
+				 	for(int i=1;i<s.length;i++){
+						String[] icord=s[i].split(",");
+						int idcordX=(Integer.parseInt(icord[0]));
+						int idcordY=(Integer.parseInt(icord[1]));
+						
+						SnakePart sP= new SnakePart(idcordX,idcordY,20,20);
+						System.out.println(idcordX+"****************"+idcordY);
+						
+						sk.addPartFixed(sP);
+					}
+				 	snakes.add(sk);
+			 	}
+			 	
+			 	if (command.getP().getSocket().getServerResponse().split("Food").length>1){
+			 		String infofood=command.getP().getSocket().getServerResponse().split("Food")[1];
+				 	
+				 	String[] pos_food=infofood.split(",");
+					int food_x=(Integer.parseInt(pos_food[1]))*20;
+					int food_y=(Integer.parseInt(pos_food[0]))*20;
+					
+					Miams food= new Miams(food_x, food_y);
+					d.setFood(food);
+			 	}
+			 	else{
+			 		d.deleteFood();
+			 	}
+			 	
+			 	d.setSnakes(snakes);
+				d.repaint();
+			}
+
 		
 	}
 

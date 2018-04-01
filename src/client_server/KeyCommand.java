@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 import javax.swing.AbstractAction;
 import javax.swing.JLabel;
@@ -42,7 +44,7 @@ public class KeyCommand implements KeyListener {
    
    int c=0; 
   
-   private Player p= new Player(); // ajout d'un joueur;
+   private Player p;// ajout d'un joueur;
    
    Deplacement deplacement; //= new DeplacementDroite(this);
    
@@ -58,14 +60,15 @@ public class KeyCommand implements KeyListener {
    /* Ajout dun joueur et test de connexion */
    
     
-   public KeyCommand( DrawPanel panel_) {
+   public KeyCommand( DrawPanel panel_) throws UnknownHostException, IOException {
       label = panel_;
+      p = new Player(label.getId_player(),label.getSnake(),"localhost",36000);
       depBas= new  DeplacementBas(this );
       depHaut= new  DeplacementHaut(this );
       depDroit= new  DeplacementDroite(this );
       depGauche= new DeplacementGauche(this);
        
-      deplacement= depHaut;
+      deplacement= depBas;
        
        //p.demandeConnexion("localhost",36000,"Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()); // connecxion au serveur
        p.getEtatconnexion().updatePosition("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
@@ -254,7 +257,7 @@ public class KeyCommand implements KeyListener {
                  
                  p.getPos().setPosX(0);
                  //p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
-                 p.demandeConnexion("localhost",36000,"Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
+                 p.demandeConnexion(/*"localhost",36000,*/"Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
              
 
              } else {

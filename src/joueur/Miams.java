@@ -10,8 +10,9 @@ public class Miams {
 	int posX;
 	int posY;
 	
-	public Miams(){
-		
+	public Miams(int x,int y){
+		posX=x;
+		posY=y;
 		
 	}
 
