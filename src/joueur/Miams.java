@@ -7,6 +7,10 @@ package joueur;
  *  @attribute posY: position en Y
  */
 public class Miams {
+	
+		public Miams(){
+			
+		}
 	int posX;
 	int posY;
 	

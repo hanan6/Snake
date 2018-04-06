@@ -62,7 +62,7 @@ public class KeyCommand implements KeyListener {
     
    public KeyCommand( DrawPanel panel_) throws UnknownHostException, IOException {
       label = panel_;
-      p = new Player(label.getId_player(),label.getSnake(),"localhost",36000);
+      p = new Player(label.getId_player(),label.getPwd_player(),label.getSnake(),"localhost",36000);
       depBas= new  DeplacementBas(this );
       depHaut= new  DeplacementHaut(this );
       depDroit= new  DeplacementDroite(this );
@@ -146,147 +146,7 @@ public class KeyCommand implements KeyListener {
        // on ne fait rien
    }
    
-   /*
-    * Fonction de gestion du sens de deplacement du Snake
-    */
-   
-   public void deplacement(){
-	   // si le sens est egal à 0
-	   
-  	 if (sens==0){
-  	  
-      	  if (ok==false){
-	               if (c >= D_W) {
-	                   c = 0;
-	                   label.getSnake().moving();
-	                   label.getSnake().getSetPart().get(0).setPosX(c);
-	                   label.repaint();
-	                   
-	                   p.getPos().setPosX(0);
-	                  // p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
-	                  // p.demandeConnexion("localhost",36000,"Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-	                   p.getEtatconnexion().updatePosition("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-	                   
-	
-	               } else {
-	                   c +=20;
-	                  
-	                   label.getSnake().moving();
-	                   label.getSnake().getSetPart().get(0).setPosX(c);         
-	                   label.repaint();
-	                   
-	                   p.getPos().setPosX(p.getPos().getPosX()+1);
-	                   //p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
-	                  // p.demandeConnexion("localhost",36000,"Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-	                   p.getEtatconnexion().updatePosition("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-	
-	               }
-	               
-	               
-	           }
-      	  else{
-      		  if (c >/*=*/ D_W) {
-	                   c = 0;
-	                   y=y+20;
-	                   label.getSnake().moving();
-	                   label.getSnake().getSetPart().get(0).setPosY(y);
-	                   label.getSnake().getSetPart().get(0).setPosX(c);
-	               
-	
-	               }
-      		  else {
-
-	                   label.getSnake().moving();
-	                   y=y+20;
-	                   label.getSnake().getSetPart().get(0).setPosY(y);
-	                   label.getSnake().getSetPart().get(0).setPosX(c);
-	                   label.repaint();
-	                   
-	                   p.getPos().setPosY(p.getPos().getPosY()+1);
-	       			   //p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
-	                   //p.demandeConnexion("localhost",36000,"Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-	                   p.getEtatconnexion().updatePosition("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-
-	               }
-      		  
-      		  ok=false;
-      		  // changement de sens
-      		  sens=1;
-      		  
-      		  
-      	  }
-  	  
-     } // fin sens 0
-  	 
-     if(sens==1){
-  	   
-  	   if (ok==false){
-             if (y >= D_H) {
-                 y = 0;
-                 label.getSnake().moving();
-                 label.getSnake().getSetPart().get(0).setPosY(y);
-                 label.repaint();
-                 
-                 p.getPos().setPosY(0);
-     			 //p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
-                // p.demandeConnexion("localhost",36000,"Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-                 p.getEtatconnexion().updatePosition("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-
-             } else {	                   
-                 y +=20;
-
-                 label.getSnake().moving();
-                 label.getSnake().getSetPart().get(0).setPosY(y);         
-                 label.repaint();
-                 
-                 p.getPos().setPosY(p.getPos().getPosY()+1);
-                // p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
-                 //p.demandeConnexion("localhost",36000,"Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-                 p.getEtatconnexion().updatePosition("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-
-             }
-             
-             
-         }
-  	  else{
-  		  if (c >= D_W) {
-                 c = 0;
-                // c=c+20;
-                 label.getSnake().getSetPart().get(0).setPosY(y);
-                 label.getSnake().getSetPart().get(0).setPosX(c);
-                 
-                 p.getPos().setPosX(0);
-                 //p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
-                 p.demandeConnexion(/*"localhost",36000,*/"Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-             
-
-             } else {
-                 
-                 label.getSnake().moving();
-                 c=c+20;
-                 label.getSnake().getSetPart().get(0).setPosY(y);
-                 label.getSnake().getSetPart().get(0).setPosX(c);
-                 label.repaint();
-                 
-                 p.getPos().setPosX(p.getPos().getPosX()+1);
-                 //p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
-                // p.demandeConnexion("localhost",36000,"Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-                 p.getEtatconnexion().updatePosition("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-                
-               	
-             }
-  		  
-  		  ok=false;
-  		  // changement de sens
-  		  sens=0;
-  		  
-  		  
-  	  }
-  	   
-  	   
-     }
-	   
-   }
+  
 
 public int getY() {
 	return y;

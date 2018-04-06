@@ -62,10 +62,11 @@ public class FenetrePricipale extends JFrame {
     
     DrawPanel drawPanel; 
     
-    public FenetrePricipale( String id_player) throws UnknownHostException, IOException {
+    public FenetrePricipale( String id_player, String pwd_player) throws UnknownHostException, IOException {
     	
     	this.id_player=id_player;
     	 drawPanel = new DrawPanel(this.id_player);
+    	 drawPanel.setPwd_player(pwd_player);
     	 monsnake.addPart(sp2);
     	 monsnake.addPart(sp3);
     	 

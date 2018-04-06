@@ -112,7 +112,6 @@ public class DeplacementDroite implements Deplacement {
 			}
 		 
 		 
-		 
 	}
 
 	public void changementPositionDroit() {

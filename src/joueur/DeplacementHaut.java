@@ -101,35 +101,9 @@ public class DeplacementHaut implements Deplacement {
 			 	
 			 	d.setSnakes(snakes);
 				d.repaint();
-			 /*	String[] s=positions.split("P");
-			 	DrawPanel d= command.getLabel();
-			 	Snake sk= new Snake();
-			 	//ArrayList<Snake> snakes= new ArrayList<Snake> ();
-				for(int i=1;i<s.length;i++){
-					String[] icord=s[i].split(",");
-					int idcordX=(Integer.parseInt(icord[0]));
-					int idcordY=(Integer.parseInt(icord[1]));
-					
-					SnakePart sP= new SnakePart(idcordX,idcordY,20,20);
-					System.out.println(idcordX+"****************"+idcordY);
-					
-					sk.addPart(sP);
-				}*/
-				
-				//snakes.add(sk);
-				
-				//d.setSnakes(snakes);
-				//d.repaint();
+			 
 			}
-		 /*if (command.getP().getSocket().getServerResponse().equals("allongement")){
-				
-				SnakePart sp= new SnakePart(0,0,20,20);
-				command.getP().getSnakeJoueur().addPart(sp);
-				
-				System.out.println("|-----------------------|");
-				System.out.println("|----------------------");
-				
-			}*/
+		
 		 
 		 
 	}

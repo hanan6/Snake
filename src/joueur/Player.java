@@ -22,6 +22,19 @@ public class Player {
 	
 	int score;
 	String id;
+	
+	String password;
+	public String getPassword() {
+		return password;
+	}
+
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
 	int vie;
 	private int niveau;
 	Snake  snakeJoueur;
@@ -38,7 +51,7 @@ public class Player {
 	
 	
 
-	public Player(String id_joueur, Snake sk, String serverAdress, int port) throws UnknownHostException, IOException{
+	public Player(String id_joueur,String password, Snake sk, String serverAdress, int port) throws UnknownHostException, IOException{
 		pos= new PositionJoueur(); // Initilisation de la position du joeur
 		id="12";
 		snakeJoueur=sk;
@@ -49,6 +62,8 @@ public class Player {
 		
 		socket= new SocketClient(serverAdress,port,this);
 		id=id_joueur;
+		
+		this.password=password;
 	}
 
 
@@ -139,19 +154,6 @@ public class Player {
 		
 	}
 	
-	 public static void main(String args[]){
-		 
-		 
-		 /*
-		  *  Instanciation d'un personne/joueur et demande de connexion  sur le serveur
-		  */
-		// Player p1= new Player();
-		// p1.demandeConnexion("localhost",36000,"Pos:X="+p1.getPos().getPosX()+"Y="+p1.getPos().getPosY());
-		 
-		 
-	 }
-
-
 
 	public int[][] getMatrice_jeu() {
 		return matrice_jeu;

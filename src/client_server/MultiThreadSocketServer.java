@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+
+
 /**
  * Cette classe correspond au server de Socket qui permet de gerer la connextion des joeurs/Snake
  * @author etudiant
@@ -16,11 +18,13 @@ import java.util.Map;
 class MultiThreadSocketServer {
 	static ServerSocket server;
 	
+	private static  DataBase db;
 	
 	private static int num_mess=0;
 	private static  ArrayList<Socket> ensembleclient= new ArrayList<Socket>() ;
 	
-	static ConnectedPlayers players= new ConnectedPlayers();
+	
+	private static ConnectedPlayers players= new ConnectedPlayers();
 	
 	private static int[][] repere=new int[11][11]; 
 	
@@ -113,7 +117,7 @@ class MultiThreadSocketServer {
 	
 	boolean ok=false;
 	while(ok==false){
-		if (repere[x][y]==0){
+		if (repere[y][x]==0){
 			ok=true;
 		}
 		else{
@@ -122,20 +126,23 @@ class MultiThreadSocketServer {
 		}
 	}
 	
-	repere[x][y]=99;
+	repere[y][x]=99;
 	
-	nourriture[0]=y;
-	nourriture[1]=x;
-         
+	nourriture[0]=x;
+	nourriture[1]=y;
+	//repere[nourriture[1]][y]=99;
+	
+	
+	db = new DataBase();
+        
     try {
        server = new ServerSocket(36000);
  
       while (true) {
         Socket client = server.accept();
         num_mess++;    
-        Thread t =  new Thread(new ClientDialogThread(client,num_mess,players, repere,anciennePosition, nourriture));
-        t.start();
-        
+        Thread t =  new Thread(new ClientDialogThread(client,num_mess,players, repere,anciennePosition, nourriture, db));
+        t.start();        
       }
      
     // server.close();

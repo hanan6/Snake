@@ -32,21 +32,24 @@ public class DrawPanel extends JPanel {
 	 
 	 private Miams food=null;
 	 
-	
 
 
 	private ArrayList <Snake> snakes=new ArrayList<Snake>();
 	 String id_player;
+	 String pwd_player;
 	 
-	 public DrawPanel(String id_player){
-		 this.id_player=id_player;
-		 
-		// JTextField zoneNom= new  JTextField("");
-		 
-		 
-		// this.add(zoneNom);
+	 public String getPwd_player() {
+		return pwd_player;
+	}
 
-		// snake=s;
+
+	public void setPwd_player(String pwd_player) {
+		this.pwd_player = pwd_player;
+	}
+
+
+	public DrawPanel(String id_player){
+		 this.id_player=id_player;
 		 
 		 
 	 }

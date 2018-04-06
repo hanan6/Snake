@@ -15,6 +15,11 @@ public class EtatConnected implements EtatConnexion {
 
 		System.out.println(">Deja connecté");
 		
+		player.demandeConnexion("demandedeconnexion:"+player.getId());
+		if (player.getSocket().getServerResponse().equals("okdeconnexion")){
+			player.setEtatconnexion(player.getEtatdisconnected());
+		}
+		
 	}
 
 	public void playerDisconnection() {
@@ -26,7 +31,7 @@ public class EtatConnected implements EtatConnexion {
 	public void updatePosition(String texte) {
 		//player.demandeConnexion("localhost",36000, texte);
 		
-		player.demandeConnexion(/*"localhost",36000,*/"===================================");
+		//player.demandeConnexion(/*"localhost",36000,*/"===================================");
 		
 		String pos="updpos="+player.getId()+"@P";
 		
