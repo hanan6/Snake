@@ -1,4 +1,4 @@
-package client_server;
+package joueur;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -16,9 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
-import joueur.Player;
-import joueur.PositionJoueur;
-import joueur.SnakePart;
 
 import vue.FenetrePricipale;
 
@@ -79,6 +76,12 @@ public class SocketClient  {
 					
 					SnakePart sp= new SnakePart(0,0,20,20);
 					p.setScore(Integer.parseInt(server_response.split(":")[1]));
+										
+				}
+			 
+			 
+			 if (server_response.startsWith("reduction_taille")){					
+					p.getSnakeJoueur().removePart(1);
 										
 				}
 

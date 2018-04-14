@@ -25,7 +25,7 @@ public class FenetreConnexion extends JFrame {
 
         this.setTitle("Snake RPG Multi Joueur");
         // Taille de la frame
-        this.setSize(1024, 768);
+        this.setSize(500, 200);
 
         this.setResizable(true);
      
@@ -43,7 +43,7 @@ public class FenetreConnexion extends JFrame {
 	    	
 	    	SwingUtilities.invokeLater(new Runnable() {
 	                public void run() {
-	                    new FenetreConnexion ();
+	                    new FenetreConnexion();
 	                }
 	            });
 	        

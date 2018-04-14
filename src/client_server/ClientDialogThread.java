@@ -178,7 +178,9 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
 	}
     
 
-	// Envoie des informations au client
+	/**
+	 *  Envoie des informations au client
+	 */
 	public void sendPositions(){
 		String msg="E";
 		Iterator iterator = ex_position.entrySet().iterator();
@@ -202,8 +204,9 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
 	}
 	
 	
-	// recuperation des position
-	
+	/**
+	 *  recuperation des position
+	 */
 	public String recuP(String[] s){
 		String res="P";
 		int n = s.length;
@@ -221,12 +224,12 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
     
     
    /**
-    *  Interpretation des messages recus par le serveur
+    * Affichage des messages recus par le serveur
     */
     
     public void printClientMessages(String received){
     	
-    		System.out.println(received); /*( Affiche les informations recues), A modifier/completer */
+    		System.out.println(received); 
     	
     	}
     
@@ -234,9 +237,7 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
     
     /**
      * Envoie message au client
-     * @return
-     */
-    
+     */ 
     public void sendMessage(String msg){
     	 out.println(msg);
     }
@@ -323,19 +324,26 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
 	 * Gestion de deconnexion du joueur
 	 */
 	public void deconnexionJoueur(String message){
-    	String msg[]= message.split(":");
-    	if(players.getPlayers().containsKey(msg[1])){
-    		
-    		String[]  ex_pos= {""};
-    		this.sendMessage("okdeconnexion");
-    		
-    		players.removePlayer(id_player);
-    		points.remove(id_player);
-    		ex_position.remove(id_player);
-    		suppressionJoueurRepere(Integer.parseInt(id_player));
- 	
-    	}
-		
+		synchronized(players){
+			synchronized(points){
+				synchronized(ex_position){
+			
+			    	String msg[]= message.split(":");
+			    	if(players.getPlayers().containsKey(msg[1])){
+			    		
+			    		String[]  ex_pos= {""};
+			    		this.sendMessage("okdeconnexion");
+			    		
+			    		players.removePlayer(id_player);
+			    		points.remove(id_player);
+			    		ex_position.remove(id_player);
+			    		suppressionJoueurRepere(Integer.parseInt(id_player));
+			 	
+			    	}
+				}
+			}
+			
+		}
 		
 	}
 	
@@ -363,10 +371,10 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
     			
     		}
 
-    		// mis à jour de la position ( recuperation de l'ensemble des coordonées )
+    		// mise à jour de la position ( recuperation de l'ensemble des coordonées )
     		String[] positions=line.split("=");
     		String[] ensemblecord=positions[1].split("P");
-    		ex_position.put(id_player, positions[1].split("P")); // Mise à jour de la position
+    		ex_position.put(id_player, positions[1].split("P"));
     		int n = ensemblecord.length;
     		for(int i=1;i<n;i++){
     			String[] icord=ensemblecord[i].split(",");
@@ -387,12 +395,11 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
     			
     		}
 
-			   affichageRepere();
-			   System.out.println();
-			   	sendPositions();
+    		affichageRepere();
+    		System.out.println();
+    		sendPositions();
 
     		this.sendMessage("");
-
 		}
 	}
 	
@@ -430,6 +437,20 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
 			}
 			
 		}
+		
+	}
+	
+	
+	/**
+	 * 
+	 * Reduction de la taille du snake et perte de point
+	 * 	s'il mange un object "poison"
+	 */
+	
+	public void pertePointTaille(){
+		
+		this.sendMessage("reduction_taille");
+		
 		
 	}
 	

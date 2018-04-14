@@ -80,9 +80,11 @@ public class Snake {
 	 */
 	public void removePart(int n){
 		int snake_size= setPart.size();
-		setPart.remove(snake_size-1);
 		
-	}
+		if (snake_size>1){
+				setPart.remove(snake_size-1);
+		}
+	}	
 	
 	
 	/**
@@ -188,5 +190,6 @@ public class Snake {
 		
 		setPart.add(sp);
 	}
+
 
 }

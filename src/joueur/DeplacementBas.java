@@ -2,7 +2,6 @@ package joueur;
 
 import java.util.ArrayList;
 
-import client_server.KeyCommand;
 import vue.DrawPanel;
 
 
@@ -25,38 +24,31 @@ public class DeplacementBas implements Deplacement {
 	
 	public void seDeplacer() {
 		
-		System.out.println("Deplacement vers le  bas");
-		 if (command.getY() >= command.getdH()) {
-			 //y = 0; 
-			 command.setY(0);
-			 command.getLabel().getSnake().moving(); 	 //label.getSnake().moving();
-			 command.getLabel().getSnake().getSetPart().get(0).setPosY(command.getY()); //label.getSnake().getSetPart().get(0).setPosY(y);
-			// command.getLabel().repaint();
-             //label.repaint();
-			 
-			 command.getP().getPos().setPosY(0);
-             
-           //  p.getPos().setPosY(0);
- 			 //p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
-            // p.demandeConnexion("localhost",36000,"Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-			 command.getP().getEtatconnexion().updatePosition("Pos:X="+command.getP().getPos().getPosX()+"Y="+command.getP().getPos().getPosY());
-			 //p.getEtatconnexion().updatePosition("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-
-         } else {	                   
-            // y +=20;
-             command.setY( command.getY()+20);
-
-             command.getLabel().getSnake().moving(); 	//label.getSnake().moving();
-             command.getLabel().getSnake().getSetPart().get(0).setPosY(command.getY());// label.getSnake().getSetPart().get(0).setPosY(y);         
-            // command.getLabel().repaint(); //label.repaint();
-             
-             
-          //   command.getP().getPos().setPosY( command.getP().getPos().getPosY()+1); // p.getPos().setPosY(p.getPos().getPosY()+1);
-            // p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
-             //p.demandeConnexion("localhost",36000,"Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-             command.getP().getEtatconnexion().updatePosition("Pos:X="+command.getP().getPos().getPosX()+"Y="+command.getP().getPos().getPosY());
-
-         }
+		if(command.getP().getEtatconnexion()==command.getP().getEtatconnected()){
+		
+			System.out.println("Deplacement vers le  bas");
+			 if (command.getY() >= command.getdH()) {
+				 //y = 0; 
+				 command.setY(0);
+				 command.getLabel().getSnake().moving(); 	
+				 command.getLabel().getSnake().getSetPart().get(0).setPosY(command.getY()); 
+				 
+				 command.getP().getPos().setPosY(0);
+	             
+	           
+				 command.getP().getEtatconnexion().updatePosition("Pos:X="+command.getP().getPos().getPosX()+"Y="+command.getP().getPos().getPosY());
+				
+	
+	         } else {	                   
+	             command.setY( command.getY()+20);
+	
+	             command.getLabel().getSnake().moving();
+	             command.getLabel().getSnake().getSetPart().get(0).setPosY(command.getY());
+	             command.getP().getEtatconnexion().updatePosition("Pos:X="+command.getP().getPos().getPosX()+"Y="+command.getP().getPos().getPosY());
+	
+	         }
+		 
+		}
 		 
 		 if (command.getP().getSocket().getServerResponse().startsWith("E")){
 			 	
@@ -78,7 +70,6 @@ public class DeplacementBas implements Deplacement {
 						int idcordY=(Integer.parseInt(icord[1]));
 						
 						SnakePart sP= new SnakePart(idcordX,idcordY,20,20);
-						System.out.println(idcordX+"****************"+idcordY);
 						sk.addPartFixed(sP);
 					}
 				 	snakes.add(sk);

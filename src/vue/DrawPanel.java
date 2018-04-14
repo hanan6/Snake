@@ -67,11 +67,11 @@ public class DrawPanel extends JPanel {
 
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-       // System.out.print("taille="+snake.getSetPart().size());
-        
+		g.drawRect(5,5,220,220);
+		
 	     for(int k=0;k<snakes.size();k++){
 	        	Snake sk_i=snakes.get(k);
-	        	
+	        		
 		        for (int i=0;i<sk_i.getSetPart().size();i++){
 		        	SnakePart spi=sk_i.getSetPart().get(i);
 

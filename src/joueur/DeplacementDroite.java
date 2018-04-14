@@ -3,7 +3,6 @@ package joueur;
 import java.util.ArrayList;
 
 import vue.DrawPanel;
-import client_server.KeyCommand;
 
 
 public class DeplacementDroite implements Deplacement {
@@ -19,51 +18,46 @@ public class DeplacementDroite implements Deplacement {
 	public DeplacementDroite(KeyCommand command){
 		
 		this.command=command;
-		
-		
-		
-		
+
 		
 	}
 	
 	public void seDeplacer() {
 		
-		System.out.println("Deplacement vers la droite ");
+		if(command.getP().getEtatconnexion()==command.getP().getEtatconnected()){
 		
-		
-		 if ( command.getC() >= command.getdW()) {
-			 
-			 command.setC(0); // c = 0;
-			 command.getLabel().getSnake().moving(); //label.getSnake().moving();
-			 command.getLabel().getSnake().getSetPart().get(0).setPosX(command.getC());  // label.getSnake().getSetPart().get(0).setPosX(c);
-			// command.getLabel().repaint(); //label.repaint();
-             
-			 command.getP().getPos().setPosX(0);  // p.getPos().setPosX(0);
-            // p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
-            // p.demandeConnexion("localhost",36000,"Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-			 
-			 
-			 command.getP().getEtatconnexion().updatePosition("Pos:X="+command.getP().getPos().getPosX()+"Y="+command.getP().getPos().getPosY());
-           //  p.getEtatconnexion().updatePosition("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-             
-			 
-
-         } else {
-        	 command.setC( command.getC()+20);
-        	 
-            // c +=20;
-            
-        	 command.getLabel().getSnake().moving(); // label.getSnake().moving();
-        	 command.getLabel().getSnake().getSetPart().get(0).setPosX(command.getC()); //  label.getSnake().getSetPart().get(0).setPosX(c);         
-        	// command.getLabel().repaint(); // label.repaint();
-             
-        //	 command.getP().getPos().setPosY( command.getP().getPos().getPosX()+1); //   p.getPos().setPosX(p.getPos().getPosX()+1);
-             //p.getSocket().envoyereMessage(("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()));
-            // p.demandeConnexion("localhost",36000,"Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-        	 command.getP().getEtatconnexion().updatePosition("Pos:X="+command.getP().getPos().getPosX()+"Y="+command.getP().getPos().getPosY());
-             //p.getEtatconnexion().updatePosition("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
-
-         }
+			System.out.println("Deplacement vers la droite ");
+			
+			
+			
+			
+			 if ( command.getC() >= command.getdW()) {
+				 
+				 command.setC(0); // c = 0;
+				 command.getLabel().getSnake().moving(); 
+				 command.getLabel().getSnake().getSetPart().get(0).setPosX(command.getC());  
+				
+	             
+				 command.getP().getPos().setPosX(0);
+				 
+				 
+				 command.getP().getEtatconnexion().updatePosition("Pos:X="+command.getP().getPos().getPosX()+"Y="+command.getP().getPos().getPosY());
+	           
+	             
+				 
+	
+	         } else {
+	        	 command.setC( command.getC()+20);
+	            
+	        	 command.getLabel().getSnake().moving(); 
+	        	 command.getLabel().getSnake().getSetPart().get(0).setPosX(command.getC());
+	            
+	        	 command.getP().getEtatconnexion().updatePosition("Pos:X="+command.getP().getPos().getPosX()+"Y="+command.getP().getPos().getPosY());
+	           
+	
+	         }
+		 
+		}
 		 
 		 if (command.getP().getSocket().getServerResponse().startsWith("E")){
 			 	
@@ -85,7 +79,6 @@ public class DeplacementDroite implements Deplacement {
 						int idcordY=(Integer.parseInt(icord[1]));
 						
 						SnakePart sP= new SnakePart(idcordX,idcordY,20,20);
-						System.out.println(idcordX+"****************"+idcordY);
 						
 						sk.addPartFixed(sP);
 					}

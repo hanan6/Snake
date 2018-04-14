@@ -1,4 +1,4 @@
-package client_server;
+package joueur;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -15,12 +15,6 @@ import javax.swing.Timer;
 
 import vue.DrawPanel;
 
-import joueur.Deplacement;
-import joueur.DeplacementBas;
-import joueur.DeplacementDroite;
-import joueur.DeplacementGauche;
-import joueur.DeplacementHaut;
-import joueur.Player;
 
 
 /**
@@ -28,7 +22,6 @@ import joueur.Player;
 * lorsqu'une touche est appuyée ou relâchée, affiche le code de touche
 * correspondant dans un objet JLabel qui doit être fourni au constructeur.
 */
-
 
 public class KeyCommand implements KeyListener {
    private final  DrawPanel label;
@@ -46,19 +39,12 @@ public class KeyCommand implements KeyListener {
   
    private Player p;// ajout d'un joueur;
    
-   Deplacement deplacement; //= new DeplacementDroite(this);
-   
+   Deplacement deplacement;
    DeplacementBas depBas;
-   
    DeplacementHaut depHaut;
-   
    DeplacementDroite depDroit;
-   
    DeplacementGauche depGauche;
-   
-   
-   /* Ajout dun joueur et test de connexion */
-   
+    
     
    public KeyCommand( DrawPanel panel_) throws UnknownHostException, IOException {
       label = panel_;
@@ -68,20 +54,14 @@ public class KeyCommand implements KeyListener {
       depDroit= new  DeplacementDroite(this );
       depGauche= new DeplacementGauche(this);
        
-      deplacement= depBas;
+      deplacement= depBas;  // Intialisation au deplacement vers le bas 
        
-       //p.demandeConnexion("localhost",36000,"Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY()); // connecxion au serveur
-       //p.getEtatconnexion().updatePosition("Pos:X="+p.getPos().getPosX()+"Y="+p.getPos().getPosY());
        
        ActionListener listener = new AbstractAction() {
            public void actionPerformed(ActionEvent e) {
-
-        	 //deplacement();
         	   
         	  deplacement.seDeplacer();
-        	  
-        	  
-        	
+ 
            }
        };
        Timer timer = new Timer(500, listener);
@@ -94,31 +74,42 @@ public class KeyCommand implements KeyListener {
     * Gestion de l'evenement de saisie de touche clavier
     */
    public void keyPressed(KeyEvent e) {
-		   System.out.println(e.getKeyCode()==KeyEvent.VK_UP);	 
+	   		//deplacement vers la vers le haut
 		   if (e.getKeyCode()==KeyEvent.VK_UP){
 			  
 			   deplacement=depHaut;
 
 		   }
 		   
+		 //deplacement vers la vers le bas
 		   if (e.getKeyCode()==KeyEvent.VK_DOWN){
   
 			   deplacement=depBas;
 
 			   }
 		   
+		   //deplacement vers la vers la gauche
 		   if (e.getKeyCode()==KeyEvent.VK_LEFT){
 				  
 			   deplacement= depGauche;
 			   }
+		   //deplacement vers la droite
 		   if (e.getKeyCode()==KeyEvent.VK_RIGHT){
 				  deplacement= depDroit;
 				 
 			   }
 		   
-		   if (e.getKeyCode()==KeyEvent.VK_A){
+		// gestion du deplacement vers le Haut " touche C"
+		   if (e.getKeyCode()==KeyEvent.VK_C){
 
 			   p.getEtatconnexion().playerConnection();
+
+			}
+		   
+		   // gestion de la deconnection " touche D"
+		   if (e.getKeyCode()==KeyEvent.VK_D){
+
+			   p.getEtatconnexion().playerDisconnection();
 
 			}
 

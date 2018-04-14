@@ -79,9 +79,6 @@ public class DataBase {
         
            
             //Récupération des données du résultat de la requête de lecture 
-            
-            
-          ///  System.out.println("Lancement de la requette");
             int i=0;
             while ( resultat.next() ) {
                 int idUtilisateur = resultat.getInt( "id" );
@@ -101,11 +98,7 @@ public class DataBase {
             }
             
             
-        } catch ( SQLException e ) {
-         /*   messages.add( "Erreur lors de la connexion : <br/>"
-                    + e.getMessage() );*/
-                   
-            
+        } catch ( SQLException e ) {  
             System.out.println("Erreur lors de la connexion : <br/>"
                     + e.getMessage());
         } finally {

@@ -45,52 +45,12 @@ public class CentralWidget extends JPanel  {
 	
 	public CentralWidget(){
 		
-		 btnGo= new JButton("Afficher Requette");
+		 btnGo= new JButton("Connexion au Jeu");
 		 grandPanel= new JPanel(new GridLayout(1, 2));
 		
 		grandPanel.setBackground(new Color(2));
 		
 		zoneGauche= new JPanel();
-		
-		affichageDroitHaut= new JEditorPane();
-		affichageDroitHaut.setEditable(false);
-		
-		JScrollPane scrollPane = new JScrollPane(affichageDroitHaut);
-		
-		affichageDroitBas= new JEditorPane();
-		affichageDroitBas.setEditable(false);
-		
-		JScrollPane scrollPane2 = new JScrollPane(affichageDroitBas);
-		
-		zonesaisie= new JTextArea();
-		zonesaisie.setLineWrap(true);
-		Dimension dim=new Dimension();
-		dim.setSize(300, 30);
-		//zonesaisie.setBackground(Color.BLACK);
-		zonesaisie.setEditable(true);
-		zonesaisie.setPreferredSize(dim);
-		//zonesaisie.setHorizontalAlignment(JTextField.CENTER);
-		
-		zoneDroit= new JPanel(new GridLayout(2,1));
-		//zoneGauche.setBackground(Color.blue);
-		zoneDroitHaut= new JPanel(new GridLayout(1, 1));
-		
-		//affichageDroitHaut.setSize(zoneDroitHaut.getMaximumSize());
-		
-		zoneDroitHaut.add(scrollPane);
-		
-		
-		
-		zoneDroitBas= new JPanel(new GridLayout(1, 1));
-		
-		zoneDroitBas.add(scrollPane2);
-		
-		//zoneDroitBas.add(affichageDroitBas);
-		
-		//zoneGauche.add(zonesaisie);
-		
-		
-		
 		textField = new JTextField();
 		textField.setBounds(128, 28, 86, 20);
 		
@@ -126,7 +86,11 @@ public class CentralWidget extends JPanel  {
 				SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     try {
-						new FenetrePricipale(text, textField_1.getText());
+                    	FenetrePricipale f=new FenetrePricipale(text, textField_1.getText());
+						
+						//zoneDroitHaut.add(f.getPanel());
+						//zoneDroitHaut.repaint();
+						
 					} catch (UnknownHostException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -134,20 +98,16 @@ public class CentralWidget extends JPanel  {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+                	
                 }
             });
 
 			}
 		});
 		
-		zoneDroit.add(zoneDroitHaut);
-		zoneDroit.add(zoneDroitBas);
-		
 		grandPanel.add(zoneGauche);
-		grandPanel.add(zoneDroit);
-		
-		
-		
+
+			
 		setLayout(new BorderLayout());
 		add(grandPanel);
 		

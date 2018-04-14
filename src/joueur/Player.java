@@ -8,7 +8,6 @@ import java.net.UnknownHostException;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import client_server.SocketClient;
 
 
 

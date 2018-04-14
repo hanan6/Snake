@@ -14,15 +14,14 @@ public class EtatConnected implements EtatConnexion {
 	public void playerConnection() {
 
 		System.out.println(">Deja connecté");
+	
+	}
+
+	public void playerDisconnection() {
 		player.demandeConnexion("demandedeconnexion:"+player.getId());
 		if (player.getSocket().getServerResponse().equals("okdeconnexion")){
 			player.setEtatconnexion(player.getEtatdisconnected());
 		}
-		
-	}
-
-	public void playerDisconnection() {
-		
 
 	}
 
