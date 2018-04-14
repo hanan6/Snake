@@ -45,7 +45,7 @@ public class DataBase {
         try {
            // messages.add( "Chargement du driver..." ); 	
         	System.out.println("Chargement du driver...");
-            Class.forName( "org.postgresql.Driver" );
+            Class.forName( "com.mysql.jdbc.Driver" );
             System.out.println("Driver chargé !");// messages.add( "Driver chargé !" );
         } catch ( ClassNotFoundException e ) {
            
@@ -56,9 +56,10 @@ public class DataBase {
         
 
         /* Connexion à la base de données */
-        String url = "jdbc:postgresql://localhost:5432/testbd";
-        String utilisateur = "tintin";
-    	String motDePasse = "milou";
+        String url = "jdbc:mysql://localhost/snake";
+        		//"jdbc:postgresql://localhost:5432/testbd";
+        String utilisateur = "snake";
+    	String motDePasse = "snake";
         Connection connexion = null;
         Statement statement = null;
         ResultSet resultat = null;
@@ -75,7 +76,7 @@ public class DataBase {
             /* Exécution d'une requête de lecture */
             
             
-            resultat = statement.executeQuery( "SELECT id, email, nbre_points, nom FROM Utilisateur where id="+idPlayer+" and mot_de_passe='"+mdpPlayer+"';");
+            resultat = statement.executeQuery( "SELECT id, email, score, nom FROM player where id="+idPlayer+" and password='"+mdpPlayer+"';");
         
            
             //Récupération des données du résultat de la requête de lecture 
@@ -85,7 +86,7 @@ public class DataBase {
                 String emailUtilisateur = resultat.getString( "email" );
                 String motDePasseUtilisateur = "";//resultat.getString( "mot_de_passe" );
                 String nomUtilisateur = resultat.getString( "nom" );
-                nb_point_joeur= resultat.getInt("nbre_points");
+                nb_point_joeur= resultat.getInt("score");
                 
             
                 i++;
@@ -134,14 +135,14 @@ public class DataBase {
 	/**
      * Mise à jour du nombre de points du joueur dans la base de données
      */
-    public void  majNbrePoints(int nbPoints){
+    public void  majNbrePoints(int nbPoints, String id){
     	
         /* Chargement du driver JDBC pour MySQL/PostGreSQL */
         try {
            // messages.add( "Chargement du driver..." ); 	
         	System.out.println("Chargement du driver...");
-            Class.forName( "org.postgresql.Driver" );
-            System.out.println("Driver chargé !");// messages.add( "Driver chargé !" );
+            Class.forName( "com.mysql.jdbc.Driver" );
+            System.out.println("Driver chargé !");
         } catch ( ClassNotFoundException e ) {
            
             
@@ -151,9 +152,9 @@ public class DataBase {
         
 
         /* Connexion à la base de données */
-        String url = "jdbc:postgresql://localhost:5432/testbd";
-        String utilisateur = "tintin";
-    	String motDePasse = "milou";
+        String url = "jdbc:mysql://localhost/snake";
+        String utilisateur = "snake";
+    	String motDePasse = "snake";
         Connection connexion = null;
         Statement statement = null;
         ResultSet resultat = null;
@@ -169,9 +170,9 @@ public class DataBase {
             System.out.println( "Objet requête créé !");
             /* Exécution d'une requête de lecture */
            
-            resultat = statement.executeQuery( "SELECT id, email, nom FROM Utilisateur;");
+            //resultat = statement.executeQuery( "SELECT id, email, nom FROM Utilisateur;");
             
-            statement.executeUpdate("UPDATE utilisateur SET nbre_points = "+nbPoints+";");
+            statement.executeUpdate("UPDATE player SET score = "+nbPoints+" WHERE player.id='"+id+"';");
         
 
             
@@ -230,6 +231,18 @@ public class DataBase {
 
 	public void setNb_point_joeur(int nb_point_joeur) {
 		this.nb_point_joeur = nb_point_joeur;
+	}
+	
+	public static void main(String args[]){
+		
+		DataBase db= new DataBase();
+		db.majNbrePoints(100, "1");
+		
+		
+		
+		
+		
+		
 	}
 	
     
