@@ -8,9 +8,6 @@ import java.net.UnknownHostException;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-
-
-
 /*
  *  Classe representant le joueur et ses informations;
  *  
