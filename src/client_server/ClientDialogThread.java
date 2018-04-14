@@ -179,7 +179,7 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
     
 
 	/**
-	 *  Envoie des informations au client
+	 *  Envoie des informations sur la partie au client
 	 */
 	public void sendPositions(){
 		String msg="E";
