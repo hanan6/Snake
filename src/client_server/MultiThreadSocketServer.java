@@ -17,35 +17,26 @@ import java.util.Map;
 
 class MultiThreadSocketServer {
 	static ServerSocket server;
-	
 	private static  DataBase db;
 	
 	private static int num_mess=0;
 	private static  ArrayList<Socket> ensembleclient= new ArrayList<Socket>() ;
-	
-	
 	private static ConnectedPlayers players= new ConnectedPlayers();
-	
 	private static int[][] repere=new int[11][11]; 
-	
-	
 	private static Map<String, String[]> anciennePosition;
-	
+	private static Map<String,Integer> points;  // nombre de points des joueurs
 	private static int[] nourriture = new int[2]; // coordonnée de la nourriture
 	
-
 	public void affichageliGneRepere(int idline){
 		
 		int p= repere[0].length;
-		
 		for (int i=0; i <p;i++){
-		
-			System.out.print("|"+repere[idline][i]+"|");
-			
+			System.out.print("|"+repere[idline][i]+"|");	
 		}
 	}
 	
 	public void majRepere(int x, int y){
+		
 		if ( x<repere.length && y<repere[0].length){
 			repere[x][y]=1;
 		}
@@ -55,7 +46,6 @@ class MultiThreadSocketServer {
 		
 		int n = repere.length;		
 		for (int i=0; i <n;i++){
-		
 			System.out.println();
 			affichageliGneRepere(i);	
 		}
@@ -67,7 +57,7 @@ class MultiThreadSocketServer {
 		String msg="[Positions]";
 		 Iterator iterator = anciennePosition.entrySet().iterator();
 	       int id=0;
-	     //   System.out.print("Taille ===="+qualificatifs.size());
+
 	        while (iterator.hasNext()) {
 	        	if(id!=0){
 	        		msg+="Snake";
@@ -81,7 +71,9 @@ class MultiThreadSocketServer {
 	}
 	
 	
-	
+	/**
+	 * ajout de la Nourriture dans une position aleatoire
+	 */
 	public static  void ajoutNourriture(){
 		
 		int x = (int) (Math.random() * ( 10 ));
@@ -109,9 +101,7 @@ class MultiThreadSocketServer {
 	
   public static void main(String args[]) {
 	  
-	 // repere= new int[10][5]; // initialisation du reperere
 	anciennePosition= new HashMap<String,String[]>();
-	
 	int x = (int) (Math.random() * ( 10 ));
 	int y= (int )  (Math.random() * ( 10 ));
 	
@@ -130,18 +120,16 @@ class MultiThreadSocketServer {
 	
 	nourriture[0]=x;
 	nourriture[1]=y;
-	//repere[nourriture[1]][y]=99;
-	
-	
 	db = new DataBase();
-        
+	points= new HashMap<String,Integer>();
+   
     try {
        server = new ServerSocket(36000);
  
       while (true) {
         Socket client = server.accept();
         num_mess++;    
-        Thread t =  new Thread(new ClientDialogThread(client,num_mess,players, repere,anciennePosition, nourriture, db));
+        Thread t =  new Thread(new ClientDialogThread(client,num_mess,players, repere,anciennePosition, nourriture, db, points));
         t.start();        
       }
      

@@ -22,9 +22,7 @@ public class EtatDisconnected implements EtatConnexion {
 		if (player.getSocket().getServerResponse().equals("okconnexion")){
 			player.setEtatconnexion(player.getEtatconnected());
 		}
-		
 
-		//player.getEtatconnexion().print();
 	}
 
 	public void playerDisconnection() {

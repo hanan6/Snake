@@ -142,16 +142,7 @@ public class Player {
 	 *  */
 	
 	public void demandeConnexion(String message){
-		
-		// socket= new SocketClient();
-		 
-		
-		 
-		 
-		 socket.connexion(message);
-		 //socket.envoyereMessage("Pos:X="+pos.getPosX()+"Y="+pos.getPosY());
-		
-		
+		 socket.echangeServer(message);
 	}
 	
 

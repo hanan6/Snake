@@ -79,7 +79,6 @@ public class DeplacementBas implements Deplacement {
 						
 						SnakePart sP= new SnakePart(idcordX,idcordY,20,20);
 						System.out.println(idcordX+"****************"+idcordY);
-						
 						sk.addPartFixed(sP);
 					}
 				 	snakes.add(sk);

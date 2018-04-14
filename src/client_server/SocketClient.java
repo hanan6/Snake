@@ -54,18 +54,14 @@ public class SocketClient  {
 	 * @param serverAdress: Identite de la machaine (de type InetAdress ou String)
 	 * @param port: numéro de port sur lequel on souhaite se connecter sur le serveur
 	 */
-	public void connexion(String message){
+	public void echangeServer(String message){
 
-		System.out.println("Demande de connexion");	
 		try {
 			
 			out = new PrintWriter(s.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(
 					s.getInputStream())
 				);
-			
-			//ois = new ObjectInputStream(s.getInputStream());
-			//oos = new ObjectOutputStream(s.getOutputStream());
 		     
 			etatConnexion=true;
 			out.println(message);
@@ -78,33 +74,14 @@ public class SocketClient  {
 					p.getSnakeJoueur().addPart(sp);
 										
 				}
-			
-			System.out.println("message du serveur>"+server_response);
-			
-			//System.out.println("etat de connexion (message du serveur)>: " + in.readLine());
-			
-			/*while(etatConnexion){
-				
-				Scanner sc = new Scanner(System.in);
-				System.out.println("Mon message:");
-				String str = sc.nextLine();
-				//out.println(str);
-				//envoyereMessage(str);
-				
-				//MessageClient message= 
-				
-				if(in.readLine().equals("close")){
-					//System.out.println("Deconnection...");
-					etatConnexion=false;
-					out.close();
-					in.close();
-					//System.out.println("Deconnecté!!");
+			 
+			 if (server_response.startsWith("score_actuel")){
 					
-					fermetureConnexion();
+					SnakePart sp= new SnakePart(0,0,20,20);
+					p.setScore(Integer.parseInt(server_response.split(":")[1]));
+										
 				}
-				
-			} */
-			
+
 		//	out.close();
 		//	in.close();
 		//	s.close();

@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -38,9 +39,15 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
     int[] nourriture;
     
     DataBase db;
+    
+    Map<String,Integer> points;
+
          
     public  ClientDialogThread(Socket s, int nb_message, ConnectedPlayers players,
-    						 int[][] repere,Map<String, String[]> ex_position, int[] nourriture, DataBase db) {
+    						 int[][] repere,Map<String, String[]> ex_position, int[] nourriture,
+    						 DataBase db,Map<String,Integer> points ) {
+    	
+    	this.points=points;
    
     	id_player=null;
     	this.ex_position=ex_position;
@@ -85,7 +92,7 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
            String line;
             while (true) {
               line = in.readLine();
-              System.out.println("recu ="+line);
+              //System.out.println("recu ="+line);
                 
                 if (line.equals("bye")) {
                 	out.println("close");
@@ -97,102 +104,24 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
                 else{
                 
 	                if (line.startsWith("demandeconnexion")) {
-	                	String msg[]= line.split(":");
-	                	id_player=msg[1];
-                		
-	                	
-	                	System.out.print(id_player.length());
-                		String pwd_player=msg[2];
-                		System.out.print(pwd_player);
-                		// Class.forName( "org.postgresql.Driver" );
-                		//boolean  okok=db.executerTests(id_player,pwd_player);
-                		
-                		//System.out.print("bool = "+okok);
-                		if (db.executerTests("1","bipbip")==true){	
-	            			String[]  ex_pos= {""};	
-	       
-	                		ex_position.put(msg[1],ex_pos);
-	                		
-	                		players.addPlayer(msg[1],Integer.parseInt(msg[1]));
-	                		
-	                		System.out.print("connexion reussi");
-	                		this.sendMessage("okconnexion");
-	                		
-	                		
-	                	}
-                		else{
-                			this.sendMessage("echec connexion");
-                		}
+	                	autorisationConnexion(line);
 	                		
 	                }
-	                
-	                ////
+
 	                else{
 	                	
 		                if (line.startsWith("demandedeconnexion")) {
-		                	String msg[]= line.split(":");
-		                	if(players.getPlayers().containsKey(msg[1])){
-		                		String[]  ex_pos= {""};
-		                		this.sendMessage("okdeconnexion");
-		                		
-		                	}
+		                	 deconnexionJoueur(line);
 		                }
 		                	
-		                	else{
-			                	
-			                	if(line.startsWith("updpos")){ 
-		 	                		
-			                		// mise à zero des anciences positions
-			                		if (ex_position.get(id_player).length>1 ){
-			                			int k = ex_position.get(id_player).length;
-			                			
-			                			for(int i=1;i<k;i++){
-				                			String[] icord=ex_position.get(id_player)[i].split(",");
-				                			int idcordX=(Integer.parseInt(icord[0]))/20;
-				                			int idcordY=(Integer.parseInt(icord[1]))/20;
-				                			
-				                			majRepere(idcordY,idcordX,0);
-
-				                		}
-			                			
-			                			
-			                		}
-
-			                		// mis à jour de la position ( recuperation de l'ensemble des coordonées )
-			                		String[] positions=line.split("=");
-			                		String[] ensemblecord=positions[1].split("P");
-			                		//anciene_position=positions[1].split("P");
-			                		ex_position.put(id_player/*"boka"*/, positions[1].split("P")); // Mise à jour de la position
-			                		int n = ensemblecord.length;
-			                		for(int i=1;i<n;i++){
-			                			String[] icord=ensemblecord[i].split(",");
-			                			int idcordX=(Integer.parseInt(icord[0]))/20;
-			                			int idcordY=(Integer.parseInt(icord[1]))/20;
-			                			
-			                			if (i==1 &&  repereJeu[idcordY][idcordX]==99){
-
-			                				this.sendMessage("allongement");
-			                				// affichageRepere();
-			                				 ajoutNourriture();
-			    	                		
-			                			}
-			                			
-			                			gestionColision(idcordX, idcordY,i);
-			                			
-			                			 majRepere(idcordY,idcordX,players.getPlayers().get(id_player));
-			                			 
-
-			                		}
-
-		               			   affichageRepere();
-		               			   	sendPositions();
-
-			                		this.sendMessage("");
-	
-			                }else{
-			                	
-		                		this.sendMessage("");
-		                	}
+	                	else{
+		                	
+		                	if(line.startsWith("updpos")){ 	
+		                		updatePosition(line);	
+		                }else{
+		                	
+	                		this.sendMessage("");
+	                	}
 
 	                }
 
@@ -200,7 +129,7 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
 
             }
 
-            }   
+         }   
 
       } catch(Exception e) {
         System.err.println(e);
@@ -216,11 +145,8 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
 	public void affichageliGneRepere(int idline){
 			
 			int p= repereJeu[0].length;
-			
 			for (int i=0; i <p;i++){
-			
-				System.out.print("|"+repereJeu[idline][i]+"|");
-				
+				System.out.print("|"+repereJeu[idline][i]+"|");	
 			}
 	}
 	
@@ -234,7 +160,7 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
    * @param val
    */
 		
-		public synchronized void majRepere(int x, int y, int val){
+	public synchronized void majRepere(int x, int y, int val){
 		//	synchronized(repereJeu){
 				if ( x<repereJeu.length && y<repereJeu[0].length){
 					repereJeu[x][y]=val;
@@ -295,14 +221,16 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
     
     
    /**
-    *  Interpretation des information recues par le serveur
+    *  Interpretation des messages recus par le serveur
     */
     
-    public void interpretationMessages(String received){
+    public void printClientMessages(String received){
     	
     		System.out.println(received); /*( Affiche les informations recues), A modifier/completer */
     	
     	}
+    
+    
     
     /**
      * Envoie message au client
@@ -310,17 +238,17 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
      */
     
     public void sendMessage(String msg){
-    	
     	 out.println(msg);
-    	 
     }
     
+    
+    
+    
     /**
-     * Ajout de la nourriture dans une positions Aleatoire du repere
+     * Ajout de la nourriture dans une position aleatoire du repere
      */
 	public    void ajoutNourriture(){
-		
-		
+	
 		synchronized (this){
 				
 			int x = (int) (Math.random() * ( 10 ));
@@ -351,11 +279,7 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
 	/**
 	 *  Gestion de la detection de colision en fonction de la position 
 	 *  de la tete du snake dans le Repere
-	 * @param cordX
-	 * @param cordY
-	 * @param i
 	 */
-	
 	public void gestionColision(int cordX,int cordY, int i){
 		
 		int id= players.getPlayers().get(id_player);
@@ -368,6 +292,144 @@ public class ClientDialogThread implements Runnable /*extends Thread*/ {
     		
 		}
 		
+		
+	}
+	
+	
+	/**
+	 * Gestion de la demande de connexion du joeur
+	 * @param message
+	 */
+	public void  autorisationConnexion(String message){
+		String msg[]= message.split(":");
+    	id_player=msg[1];
+		String pwd_player=msg[2];
+		if (db.verificationPlayerId(id_player,pwd_player)==true){	
+			String[]  ex_pos= {""};	
+    		ex_position.put(msg[1],ex_pos);
+    		points.put(id_player,db.getNb_point_joeur());
+    		players.addPlayer(msg[1],Integer.parseInt(msg[1]));
+    		this.sendMessage("okconnexion");
+
+    	}
+		else{
+			this.sendMessage("echec connexion");
+		}
+
+	}
+	
+	
+	/**
+	 * Gestion de deconnexion du joueur
+	 */
+	public void deconnexionJoueur(String message){
+    	String msg[]= message.split(":");
+    	if(players.getPlayers().containsKey(msg[1])){
+    		
+    		String[]  ex_pos= {""};
+    		this.sendMessage("okdeconnexion");
+    		
+    		players.removePlayer(id_player);
+    		points.remove(id_player);
+    		ex_position.remove(id_player);
+    		suppressionJoueurRepere(Integer.parseInt(id_player));
+ 	
+    	}
+		
+		
+	}
+	
+	
+	/**
+	 * mise à jour de la position du joueur au niveau du serveur
+	 */
+	
+	public void updatePosition(String line){
+		{ 
+     		
+    		// mise à zero des anciences positions
+    		if (ex_position.get(id_player).length>1 ){
+    			int k = ex_position.get(id_player).length;
+    			
+    			for(int i=1;i<k;i++){
+        			String[] icord=ex_position.get(id_player)[i].split(",");
+        			int idcordX=(Integer.parseInt(icord[0]))/20;
+        			int idcordY=(Integer.parseInt(icord[1]))/20;
+        			
+        			majRepere(idcordY,idcordX,0);
+
+        		}
+    			
+    			
+    		}
+
+    		// mis à jour de la position ( recuperation de l'ensemble des coordonées )
+    		String[] positions=line.split("=");
+    		String[] ensemblecord=positions[1].split("P");
+    		ex_position.put(id_player, positions[1].split("P")); // Mise à jour de la position
+    		int n = ensemblecord.length;
+    		for(int i=1;i<n;i++){
+    			String[] icord=ensemblecord[i].split(",");
+    			int idcordX=(Integer.parseInt(icord[0]))/20;
+    			int idcordY=(Integer.parseInt(icord[1]))/20;
+    			
+    			if (i==1 &&  repereJeu[idcordY][idcordX]==99){
+
+    				this.sendMessage("allongement");
+    				int point_actuel=points.get(id_player);
+    				points.put(id_player, point_actuel+1);   				
+    				ajoutNourriture();
+            		
+    			}
+    			
+    			gestionColision(idcordX, idcordY,i);
+    			majRepere(idcordY,idcordX,players.getPlayers().get(id_player));
+    			
+    		}
+
+			   affichageRepere();
+			   System.out.println();
+			   	sendPositions();
+
+    		this.sendMessage("");
+
+		}
+	}
+	
+	
+	/**
+	 * Envoi du nouveau score au client
+	 */
+	
+	public void sendScore(int score){
+		this.sendMessage("score_actuel:"+points.get(id_player));
+		
+	}
+	
+	
+	
+	/**
+	 * Supression de du joueur dans la matrice repere
+	 */
+	
+	public void suppressionJoueurRepere(int id_joueur){
+		
+		/* on parcours le repere ete on met à zero toutes les cases correspodantes à 
+		 * l'Id du joueur
+		 */
+		synchronized(repereJeu){
+			int n= repereJeu.length;
+			int p=repereJeu[0].length;
+			for(int i=0;i<n;i++){
+				
+				for(int j=0;j<p;j++){
+					if (repereJeu[i][j]== id_joueur){
+						repereJeu[i][j]=0;
+					}
+				}
+			}
+			
+		}
 		
 	}
 	
